@@ -50,6 +50,7 @@ navUsuario.addEventListener("mouseup", () => {
         contenedor.innerHTML = `Ya has Iniciado Sesion`
         let divBoton = document.createElement("div");
         divBoton.innerHTML = `<div>
+    
     <button id="eliminar">ELIMINAR USUARIO</button>
     </div>`
         contenedor.append(divBoton)
@@ -57,7 +58,16 @@ navUsuario.addEventListener("mouseup", () => {
         eliminar.addEventListener("click", () => {
             localStorage.removeItem("datosUsuario");//NO QUIERO QUE ME BORRE TODO POR ESO SOLO USO EL REMOVE ITEM, Y NO CLEAR
             sessionStorage.removeItem("datosUsuario");
-            location.reload();
+            Swal.fire({
+                icon: 'warning',
+                title: '¡Usuario eliminado con exito!',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(() => {
+                location.reload();
+            }, 1200);
+
         });
     }
     else {
@@ -69,11 +79,12 @@ navUsuario.addEventListener("mouseup", () => {
         <form id="formulario">
         <label for = "formUsuario">Escribe tu nombre de usuario para iniciar sesion</label>
         <input type="text" id="formUsuario" placeholder="Nombre">
+        
         <label for = "formUsuario">Correo</label>
         <input type="text" id="formCorreo" placeholder="example@hotmail.com">
         <label for = "formContrasena">Contraseña</label>
         <input type="text" id="formContrasena" placeholder="Password">
-        <input type="submit" value = "Enviar">
+        <input class="btn btn-secondary" type="submit" value = "Enviar">
         <input type="checkbox" id="formCheckbox">
         <label for = "formCheckbox"> Recordarme </label>
             
@@ -90,19 +101,42 @@ navUsuario.addEventListener("mouseup", () => {
                 inputs[1].value = "";
                 inputs[3].value = "";
                 inputs[5].value = "";
-
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Nombre o Correo con errores',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                
             } else if (inputs[7].checked === true) {
                 const datosUsuario = { nombre: inputs[1].value, correo: inputs[3].value, contrasena: inputs[5].value };
                 localStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
-                location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Usuario guardado con exito!',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+
             } else {
                 const datosUsuario = { nombre: inputs[1].value, correo: inputs[3].value, contrasena: inputs[5].value };
                 sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
-                location.reload();
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Usuario guardado con exito!',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
             };
         });
 
-    
+
     }
 });
 //BTN ELIMINAR
@@ -141,8 +175,15 @@ const renderizarCarreras = (array) => {
 
         const btnEscoger = document.getElementById(`btnEscoger${carrera.id}`);
         btnEscoger.addEventListener("click", () => {
-            const { modalidad, nombre, colegiatura } = carrera
-            localStorage.setItem("carreraSelect", JSON.stringify(carrera))
+            const { modalidad, nombre, colegiatura } = carrera;
+            localStorage.setItem("carreraSelect", JSON.stringify(carrera));
+            Swal.fire({
+                icon: 'success',
+                title: '!Carrera seleccionada!',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        
         });
 
     });
@@ -162,8 +203,6 @@ const renderizarCarreras = (array) => {
 navCarreras.addEventListener("mouseup", () => {
     saludo.innerHTML = "<h1>Bienvenid@ las carreras </h1>";
     renderizarCarreras();
-
-
 });
 
 let navPerfil = document.getElementById("perfil");
